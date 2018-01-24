@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Assignment 2 - Forms</title>
+		<link rel="stylesheet" href="main.css">
+		<link rel="shortcut icon" href="favicon.ico">
+		<script>
+			//Errors description assigned to variables used for specific functions 
+			const ERROR_FNAME= "ERROR-FIRST NAME: Numbers, special characters or whitespace are not accepted as a first name <br>";
+			const ERROR_LNAME= "ERROR-LAST NAME: Numbers, special characters or whitespace are not accepted as a last name <br>";
+			const ERROR_PCODE= "ERROR-POSTAL CODE: It is required that you enter a Postal Code in valid format( e.g.: M2M 2M2) <br>";
+			const ERROR_EMAIL= "ERROR-E-MAIL ADDRESS: Please type a valid E-mail address: e.g.: johndoe@gmail.com <br>";
+			const ERROR_PHONE= "ERROR-PHONE NUMBER: It is required that you enter Telephone Number in valid format ( e.g.: 888 888 8888) <br>";
+			
+			
+			//Function to give focus to the first element
+			window.onload = function() 
+			{
+				document.getElementById("fname").focus();
+			}
+			//Function to apply the RegEx for postal code
+			function CheckPostalCode()
+			{
+				var regEx = /^[A-Z]\d[A-Z]\s?\d[A-Z]\d$/;
+				var pCode; 
+				
+				pCode = document.getElementById("pcode").value;
+				if ( (regEx.test(pCode)) == false || pCode === "")
+				{
+					document.getElementById("errormessage").innerHTML += ERROR_PCODE;
+					document.getElementById("pcode").focus();
+				}
+			}
+			
+			//Function to check and validate phone number
+			function CheckPhoneNumber()
+			{
+				var regEx = /^\(?\d{3}\)?[\.\-\/\s]?\d{3}[\.\-\/\s]?\d{4}$/;
+				var phoneNum; 
+				
+				phoneNum = document.getElementById("phone").value;
+				if ( regEx.test(phoneNum) == false || phoneNum ==="")
+				{
+					document.getElementById("errormessage").innerHTML += ERROR_PHONE;
+					document.getElementById("phone").focus();
+				}
+			}
+			
+			//Function to validate First Name
+			function ValidateFName()
+			{
+				var firstName;
+				
+				firstName = document.getElementById("fname").value;
+				if( firstName.length < 2 || firstName === "" || !isNaN(parseInt(firstName)))
+				{
+					document.getElementById("errormessage").innerHTML += ERROR_FNAME;
+					document.getElementById("fname").focus();
+				}
+			}
+			//Function to validate Last Name
+			function ValidateLName()
+			{
+				var lastName;
+				
+				lastName = document.getElementById("lname").value;
+				if( lastName.length < 2 || lastName === "" || !isNaN(parseInt(lastName)))
+				{
+					document.getElementById("errormessage").innerHTML += ERROR_LNAME;
+					document.getElementById("lname").focus();
+				}
+			}
+			
+			//Function to validate email
+			function ValidateEmail()
+			{
+				var regEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				var email; 
+				
+				email = document.getElementById("email").value;
+				if ( regEx.test(email) == false || email ==="")
+				{
+					document.getElementById("errormessage").innerHTML += ERROR_EMAIL;
+					document.getElementById("email").focus();
+				}
+			}
+			
+			
+			//Function to convert characters to uppercase
+			function ConvertToUpperCase(str)
+			{
+				str.value = ConvertToUpperCase2(str.value);
+			}
+			
+			function ConvertToUpperCase2(element)
+			{
+				return element.toUpperCase();
+			}
+			
+			//Function to remove the white spaces
+			function TrimString(str1)
+			{
+				str1.value = TrimString2(str1.value);
+			}
+
+			function TrimString2(inputString)
+			{
+				return inputString.trim();
+			}
+			
+			//Function to Capitalize a string
+			function Capitalize(sentence) 
+			{
+				var i = 0;
+				var j = 0;
+				var word = "";
+				
+				word = sentence.value;
+				word = word.toLowerCase().split(" ");                
+				for(i = 0; i < word.length; i++)
+				{               
+					word[i] = word[i].split('');                   
+					word[i][0] = word[i][0].toUpperCase();         
+					word[i] = word[i].join("");
+				}		
+				
+				sentence.value = "";
+				for(i = 0; i < word.length; i++)
+				{
+				 sentence.value += word[i]+" ";
+				}
+			}
+			
+			
+			//Function to validate all form
+			function ValidateForm()
+			{
+				document.getElementById("errormessage").innerHTML = "";
+				ValidateEmail();
+				CheckPhoneNumber();
+				CheckPostalCode();
+				ValidateLName();
+				ValidateFName();
+				
+				//If the script finds an error, it will not send the form
+				if (document.getElementById("errormessage").innerHTML != "")
+				{
+					return false;
+				}
+			}
+			
+			
+			
+		</script>
+			
+	</head>
+	<body>
+
+		<h1>Hello, We would like you to answer a little survey related to health care.</h1> <br>
+		<p id="greeting">Please answer each question below according to your personal experience.</p><br>
+		<p id="warning">*The fields in red are mandatory, please fill them.</p>
+		    
+		
+		<form name="Assign2Form" enctype="text/plain" onsubmit="return ValidateForm()">
+    
+		
+			<fieldset>
+				<legend>Personal Data</legend>
+				<p>1 - First Name:</p>
+				<input class="required" id="fname" type="text" name="firstName" onfocusout="ConvertToUpperCase(this)"
+				 onblur="TrimString(this)">
+	
+				<p>2 - Last Name:</p>
+				<input class="required" id="lname" type="text" name="lastName" onfocusout="ConvertToUpperCase(this)"
+				onblur="TrimString(this)" onsubmit="ConvertToUpperCase(this)"><br><br>
+
+				<p>3 - Please indicate your Age:</p>
+				<select name="age" size="1">
+					<optgroup label="Select your age group">
+					<option value="lessthan18">Less than 18</option>
+					<option value="20s">Between 19 and 29</option>
+					<option value="30s">Between 30 and 39</option>
+					<option value="40ormore">More than 40</option>
+					<option value="notdeclared" selected>Don't want to inform</option>
+					</optgroup>
+				</select><br /><br>
+			
+				<p>4 - Please indicate your gender:</p>
+				<select name="gender" size="1">
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+					<option value="notdeclared">Don't want to inform</option>
+				</select><br><br>
+			
+				<p>5 - Please provide your Postal Code:</p>
+				
+				<input class="required" id="pcode" type="text" name="pcode"  onfocusout="ConvertToUpperCase(this)"  
+				 placeholder="ex: M2M 2M2" onblur="TrimString(this)"><br>
+				
+			</fieldset>
+			
+			<fieldset>
+			
+				<legend>Health history and habits</legend>
+			
+				<p>6 - Do you practice sports regularly?</p>
+				<input type="radio" name="sports" value="yes"> Yes<br>
+				<input type="radio" name="sports" value="no"> No<br>
+				<br>
+			
+				<p>7 - Do you smoke?</p>
+				<input type="radio" name="smoke" value="yes"> Yes<br>
+				<input type="radio" name="smoke" value="no"> No<br>
+				<br>
+				
+				<p>8 - Do you drink (Alcohol)?</p>
+				<input type="radio" name="drink" value="yes"> Yes<br>
+				<input type="radio" name="drink" value="no"> No<br>
+				<br>
+				
+				<p>9 - Check below to inform your family history of diseases</p>
+				<input type="checkbox" name="disease1" value="vascular"> Vascular disease<br>
+				<input type="checkbox" name="disease2" value="hypertension"> Hypertension<br>
+				<input type="checkbox" name="disease3" value="obesity"> Obesity<br>
+				<input type="checkbox" name="disease4" value="cholesterol"> High cholesterol level<br>
+				<input type="checkbox" name="disease5" value="other"> Other<br>
+				If Other, please specify: <input type="text" name="otherDisease" id="disease" onfocusout="Capitalize(this)" ><br><br>
+				<br>
+				
+				<p>10 - Check below to inform the allergies you have:</p>
+				<input type="checkbox" name="allergy1" value="food"> Food allergy<br>
+				<input type="checkbox" name="allergy2" value="skin"> Skin allergy<br>
+				<input type="checkbox" name="allergy3" value="dust"> Dust allergy<br>
+				<input type="checkbox" name="allergy4" value="allergic"> Allergic Rhinitis<br>
+				<input type="checkbox" name="allergy5" value="drug"> Drug allergy<br>
+				<input type="checkbox" name="allergy6" value="other"> Other<br>
+				If Other, please specify: <input type="text" name="otherAllergy" id="allergy" onfocusout="Capitalize(this)"><br><br>
+				<br>
+				
+				<p>11 - Please, provide us your telephone number, so we can inform you about the final results of our survey:</p>
+				<input class="required" id="phone" type="text" name="phone" 
+				onblur="TrimString(this)" placeholder="ex: 888 888 8888" ><br>
+				<br>
+				
+				<p>12 - Please, provide us your email as well:</p>
+				<input class="required" type="text" name="email" id="email" onblur="TrimString(this)"  ><br>
+					
+			</fieldset>
+			
+			<br>
+			<input id="button" type="reset" value="Reset">
+			<input id="button" type="submit" value="Submit"><br>
+
+			<p id="errormessage"></p>
+					  
+		</form>
+		
+
+	</body>
+</html>

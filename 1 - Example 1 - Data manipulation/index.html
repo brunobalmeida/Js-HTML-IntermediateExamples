@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Even and Odd numbers - Average and Sum</title>
+		<link rel="stylesheet" href="main.css">
+		<script>
+			<!--Function to calculate sum and average and plot it on screen-->
+			function CalculateSumAverage()
+			{
+				var num = 0;
+				var sumEven = 0;
+				var sumOdd = 0;
+				var countEven = 0;
+				var countOdd = 0;
+				var averageEven = 0;
+				var averageOdd = 0;
+				
+				<!--While loop to allow the user to keep inserting numbers -->
+				while(num != "done" && num!= "Done")
+				{
+					num = prompt("Please, insert a number.");
+					
+					<!--If to break the while loop-->
+					if(num == "done" || num == "Done")
+					{
+						break;
+					}
+					else if(isNaN(num))
+					{
+						alert("You should insert only numbers.");
+						continue;
+					}
+					<!--If to avoid 0 to be inserted by the user-->
+					else if(num == 0)
+					{
+						alert("The program does not accept '0' as an input.");
+						continue;
+					}
+					<!--If to acumulate the even numbers-->
+					else if(num%2 == 0)
+					{
+						sumEven = parseFloat(num) + sumEven;
+						countEven++;
+					}
+					<!--If to acumulate the Odd numbers -->
+					else
+					{
+						sumOdd = parseFloat(num) + sumOdd;
+						countOdd++;
+					}	
+				}
+				
+				<!--Math to calculate the average of both even and odd numbers-->
+				if(countEven==0)
+				{
+					averageEven = "No even number has been typed";
+				}
+				else
+				{
+					averageEven = sumEven/countEven;
+				}
+				if(countOdd==0)
+				{
+					averageOdd = "No odd number has been typed";
+				}
+				else
+				{
+					averageOdd = sumOdd/countOdd;
+				}
+												
+				<!--Code to print the results-->
+				document.getElementById("resultseven").innerHTML = "<b>Results</b><br>" + "<i>The sum of even numbers is: </i><b>" + sumEven + "</b><br><i>The average of even numbers is: </i><b>" + averageEven + "</b>";   
+				document.getElementById("resultsodd").innerHTML = "<i>The sum of odd numbers is: </i><b>" + sumOdd + "</b><br><i>The average of odd numbers is: </i><b>" + averageOdd + "</b>";
+			}
+		</script>
+	</head>
+	
+	<body>
+		<h1 id="firstletter">Hello <font color="#ff751a">User</font></h1> 
+		<h2>This is an application made to separate the odd and even numbers from a set of numbers you enter.</h2>
+		<h3>Please, press the button below to insert as many numbers as you desire and the application will provide you the sum and average, separately, for the even and odd numbers inserted.</h3>
+		<h3>Please, do not insert '0' or any input other than numbers and notice that you have to insert the word <i>"done"</i> when you want the program to provide you the results. </h3>
+		
+		<!--Code for button  -->
+		<button type="button" onclick ="CalculateSumAverage()">Insert numbers</button>
+		
+		<p id="resultseven"></p>
+		<p id="resultsodd"></p>		
+	</body>
+	
+</html>
