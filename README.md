@@ -1,4 +1,4 @@
-#Javascript Intermediate Examples
+# Javascript Intermediate Examples
 
 This is a sample repository, loaded with a few intermediate javascript examples that may be useful for beginning coders.
 
